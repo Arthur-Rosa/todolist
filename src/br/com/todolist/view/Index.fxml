@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="494.0" prefWidth="493.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.todolist.controller.IndexController">
+   <children>
+      <Label id="rotulo" layoutX="14.0" layoutY="67.0" prefHeight="39.0" prefWidth="237.0" style="-fx-text-fill: white;" text="Data para realização:" AnchorPane.bottomAnchor="388.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="67.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="189.0" layoutY="14.0" prefHeight="39.0" prefWidth="259.0" style="-fx-text-fill: white; -fx-font-style: italic; -fx-font-weight: bold; -fx-font-family: cursive;" text="Todolist" textAlignment="CENTER" AnchorPane.bottomAnchor="441.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="inpData" layoutX="189.0" layoutY="72.0" prefHeight="30.0" prefWidth="194.0" promptText="Insira uma data" AnchorPane.bottomAnchor="392.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="72.0" />
+      <TextField fx:id="inpDescricao" layoutX="189.0" layoutY="140.0" prefHeight="30.0" prefWidth="194.0" promptText="Titulo da Tarefa" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="140.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="12.0" layoutY="135.0" prefHeight="39.0" prefWidth="209.0" style="-fx-text-fill: white;" text="Titulo da Tarefa:" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="135.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="370.0" prefHeight="39.0" prefWidth="206.0" style="-fx-text-fill: white;" text="Status da Tarefa:" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="268.0" AnchorPane.topAnchor="370.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="inptStatus" disable="true" layoutX="165.0" layoutY="374.0" prefHeight="30.0" prefWidth="224.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="374.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="14.0" layoutY="201.0" prefHeight="39.0" prefWidth="237.0" style="-fx-text-fill: white;" text="Descrição da Tarefa:" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="201.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="inpComent" layoutX="13.0" layoutY="240.0" prefHeight="122.0" prefWidth="375.0" promptText="Descrição da Tarefa" AnchorPane.bottomAnchor="132.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="105.0" AnchorPane.topAnchor="240.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="btnConc" layoutX="409.0" layoutY="61.0" mnemonicParsing="false" onAction="#clickConc" prefHeight="52.0" prefWidth="63.0" styleClass="btnConc" AnchorPane.bottomAnchor="381.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="61.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_concluir.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Concluir Tarefa" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnCalendar" layoutX="409.0" layoutY="129.0" mnemonicParsing="false" onAction="#clickCalendar" prefHeight="52.0" prefWidth="63.0" styleClass="btnCalendar" AnchorPane.bottomAnchor="313.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="129.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_calendar.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Adiar Tarefa" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnDelete" layoutX="409.0" layoutY="240.0" mnemonicParsing="false" onAction="#clickDelete" prefHeight="52.0" prefWidth="63.0" styleClass="btnDelete" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="240.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_lixeira.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Deletar Tarefa" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnSave" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" onAction="#clickSave" prefHeight="52.0" prefWidth="375.0" styleClass="btnConc" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="105.0" AnchorPane.topAnchor="417.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_disquete.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Salvar Tarefa" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnRubber" layoutX="409.0" layoutY="310.0" mnemonicParsing="false" onAction="#clickRubber" prefHeight="52.0" prefWidth="63.0" styleClass="btnRubber" AnchorPane.bottomAnchor="132.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="310.0">
+         <graphic>
+            <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_rubber.png" />
+               </image></ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Limpar Formulário" />
+         </tooltip>
+      </Button>
+   </children>
+</AnchorPane>

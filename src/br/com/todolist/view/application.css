@@ -1,0 +1,60 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/* BTN GREEN */
+.btnConc{
+	-fx-background-color: #81C784;
+	-fx-cursor: hand;
+}
+
+.btnConc:hover{
+	-fx-background-color: #3ca041;
+}
+
+.btnConc:pressed{
+	-fx-background-color: #81C784;
+}
+
+/* BTN YELLOW */
+
+.btnCalendar{
+	-fx-background-color: #F5ED84;
+	-fx-cursor: hand;
+}
+
+.btnCalendar:hover{
+	-fx-background-color: #cac253;
+}
+
+.btnCalendar:pressed{
+	-fx-background-color: #F5ED84;
+}
+
+/* BTN DELETE */
+
+.btnDelete{
+	-fx-background-color: #D40D11;
+	-fx-cursor: hand;
+}
+
+.btnDelete:hover{
+	-fx-background-color: #830d0f;
+}
+
+.btnDelete:pressed{
+	-fx-background-color: #D40D11;
+}
+
+/* BTN RUBBER */
+
+.btnRubber{
+	-fx-background-color: #C2EDF2;
+	-fx-cursor: hand;
+}
+
+.btnRubber:hover{
+	-fx-background-color: #63a9b1;
+}
+
+.btnRubber:pressed{
+	-fx-background-color: #C2EDF2;
+}
