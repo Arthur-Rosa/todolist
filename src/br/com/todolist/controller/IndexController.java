@@ -2,6 +2,7 @@ package br.com.todolist.controller;
 
 import javax.swing.JOptionPane;
 
+import br.com.todolist.model.StatusTarefa;
 import br.com.todolist.model.Tarefa;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,11 +11,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
 
 public class IndexController {
 
@@ -40,10 +38,14 @@ public class IndexController {
 	private Button btnDelete;
 
 	@FXML
+
 	private Button btnSave;
 
 	@FXML
 	private Button btnRubber;
+
+	@SuppressWarnings("unused")
+	private Tarefa tarefa;
 
 	@FXML
 	void clickCalendar(ActionEvent event) {
@@ -62,37 +64,64 @@ public class IndexController {
 
 	@FXML
 	void clickRubber(ActionEvent event) {
-		JOptionPane.showMessageDialog(null, "Ainda não funciona :(", "Alerta", JOptionPane.ERROR_MESSAGE);
+		limpar();
 	}
 
 	@FXML
 	void clickSave(ActionEvent event) throws IOException {
 		// Verificando se Valores estão vazios
-		if (inpData.getValue() == null) {
+		if (inpData.getValue().isBefore(LocalDate.now())) {
+			inpData.setStyle("-fx-border-color: red;");
+			inpDescricao.setStyle("-fx-border-color: transparent;");
+			inpComent.setStyle("-fx-border-color: transparent;");
+
+			JOptionPane.showMessageDialog(null, "Informe uma data Válida", "Alerta", JOptionPane.ERROR_MESSAGE);
+		} else if (inpData.getValue() == null) {
+			inpData.setStyle("-fx-border-color: red;");
+			inpDescricao.setStyle("-fx-border-color: transparent;");
+			inpComent.setStyle("-fx-border-color: transparent;");
+
 			JOptionPane.showMessageDialog(null, "Informe a data de realização", "Alerta", JOptionPane.ERROR_MESSAGE);
 			inpData.requestFocus();
 
 		} else if (inpDescricao.getText().isEmpty()) {
+			inpData.setStyle("-fx-border-color: transparent;");
+			inpDescricao.setStyle("-fx-border-color: red;");
+			inpComent.setStyle("-fx-border-color: transparent;");
+
 			JOptionPane.showMessageDialog(null, "Informe o Titulo", "Alerta", JOptionPane.ERROR_MESSAGE);
 			inpDescricao.requestFocus();
 
 		} else if (inpComent.getText().isEmpty()) {
+			inpData.setStyle("-fx-border-color: transparent;");
+			inpDescricao.setStyle("-fx-border-color: transparent;");
+			inpComent.setStyle("-fx-border-color: red;");
+
 			JOptionPane.showMessageDialog(null, "Informe a Descrição", "Alerta", JOptionPane.ERROR_MESSAGE);
 			inpComent.requestFocus();
 		} else {
 			Tarefa tarefa = new Tarefa();
 			
+			tarefa.setDataCriacao(LocalDate.now());
+			tarefa.setStatus(StatusTarefa.ABERTA);
+			tarefa.setDataLimite(inpData.getValue());
+			tarefa.setDescricao(inpDescricao.getText());
+			tarefa.setComentarios(inpComent.getText());
 			
-			
-			/* FileWriter arquive = new FileWriter("C:\\Users\\TecDevNoite\\AppData\\Roaming\\armazenador.txt");
+			// Salva
+			System.out.println(tarefa.formatToSave());
 
-			try {
-				PrintWriter escreveArq = new PrintWriter(arquive);
-				escreveArq.printf("so um teste boy");
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			} */
+			// Clear
+			limpar();
 		}
+	}
+
+	// Limpar os campos
+	private void limpar() {
+		tarefa = null;
+		inpData.setValue(null);
+		inpComent.setText(null);
+		inpDescricao.setText(null);
+		inpData.requestFocus();
 	}
 }

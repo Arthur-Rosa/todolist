@@ -1,6 +1,7 @@
 package br.com.todolist.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Tarefa {
 	private long id;
@@ -66,5 +67,30 @@ public class Tarefa {
 
 	public void setStatus(StatusTarefa status) {
 		this.status = status;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
+	}
+	
+	public String formatToSave() {
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(this.getId()+";");
+		DateTimeFormatter padraoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		builder.append(this.getDataCriacao().format(padraoData)+";");
+		builder.append(this.getDataLimite().format(padraoData)+";");
+		
+		if(this.getDataConcluida() != null){
+			builder.append(this.getDataConcluida().format(padraoData));
+		}
+		builder.append(";");
+		builder.append(this.getDescricao()+";");
+		builder.append(this.getComentarios()+";");
+		builder.append(this.getStatus().ordinal()+"\n");
+		
+		return builder.toString();
 	}
 }
