@@ -1,11 +1,18 @@
 package br.com.todolist.io;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import br.com.todolist.model.StatusTarefa;
 import br.com.todolist.model.Tarefa;
 
 public class TarefaIO {
@@ -45,21 +52,56 @@ public class TarefaIO {
 		Scanner sc = new Scanner(arqId);
 		tarefa.setId(sc.nextLong());
 		sc.close();
-		
+
 		FileWriter writer = new FileWriter(arqTarefa, true);
-		
+
 		writer.append(tarefa.formatToSave());
 		writer.close();
-		
+
 		// definindo ID
-		
+
 		FileWriter escritor = new FileWriter(arqId);
-		
+
 		escritor.write((tarefa.getId() + 1) + "");
-		
 		escritor.close();
 		sc.close();
-		
-		
+
 	}
+
+	public static List<Tarefa> read() throws IOException {
+		File arqTarefa = new File(FILE_TAREFA);
+
+		List<Tarefa> tarefas = new ArrayList<>();
+		FileReader leitorArq = new FileReader(arqTarefa);
+		BufferedReader buff = new BufferedReader(leitorArq);
+		String linha;
+
+		while ((linha = buff.readLine()) != null) {
+			String[] vetor = linha.split(";");
+			Tarefa t = new Tarefa();
+			t.setId(Long.parseLong(vetor[0]));
+
+			DateTimeFormatter padraoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			t.setDataCriacao(LocalDate.parse(vetor[1], padraoData));
+			t.setDataLimite(LocalDate.parse(vetor[2], padraoData));
+
+			if (!vetor[3].isEmpty()) {
+				t.setDataConcluida(LocalDate.parse(vetor[3], padraoData));
+			}
+
+			t.setComentarios(vetor[4]);
+			t.setDescricao(vetor[5]);
+			int indStatus = Integer.parseInt(vetor[6]);
+			t.setStatus(StatusTarefa.values()[indStatus]);
+
+			tarefas.add(t);
+		}
+		buff.close();
+
+		System.out.println(tarefas.size());
+
+		return tarefas;
+	}
+
 }
