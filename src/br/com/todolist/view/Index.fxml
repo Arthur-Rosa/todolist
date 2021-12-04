@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="494.0" prefWidth="778.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.todolist.controller.IndexController">
    <children>
-      <Label id="rotulo" layoutX="14.0" layoutY="67.0" prefHeight="39.0" prefWidth="237.0" style="-fx-text-fill: white;" text="Data para realização:" AnchorPane.bottomAnchor="388.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="246.0" AnchorPane.topAnchor="67.0">
+      <Label id="rotulo" fx:id="lbConcluida" layoutX="16.0" layoutY="113.0" prefHeight="39.0" prefWidth="237.0" style="-fx-text-fill: white;" text="Data para realização:" AnchorPane.bottomAnchor="342.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="113.0">
          <font>
             <Font size="18.0" />
          </font>
@@ -25,13 +25,13 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <DatePicker fx:id="inpData" layoutX="189.0" layoutY="72.0" prefHeight="30.0" prefWidth="194.0" promptText="Insira uma data" AnchorPane.bottomAnchor="392.0" AnchorPane.leftAnchor="189.0" AnchorPane.topAnchor="72.0" />
-      <TextField fx:id="inpDescricao" layoutX="189.0" layoutY="140.0" prefHeight="30.0" prefWidth="194.0" promptText="Titulo da Tarefa" AnchorPane.bottomAnchor="324.0" AnchorPane.leftAnchor="189.0" AnchorPane.topAnchor="140.0">
+      <DatePicker fx:id="inpData" layoutX="195.0" layoutY="118.0" prefHeight="30.0" prefWidth="194.0" promptText="Insira uma data" AnchorPane.bottomAnchor="346.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="118.0" />
+      <TextField fx:id="inpDescricao" layoutX="195.0" layoutY="167.0" prefHeight="30.0" prefWidth="194.0" promptText="Titulo da Tarefa" AnchorPane.bottomAnchor="297.0" AnchorPane.leftAnchor="195.0" AnchorPane.topAnchor="167.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Label layoutX="12.0" layoutY="135.0" prefHeight="39.0" prefWidth="209.0" style="-fx-text-fill: white;" text="Titulo da Tarefa:" AnchorPane.bottomAnchor="320.0" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="135.0">
+      <Label layoutX="19.0" layoutY="162.0" prefHeight="39.0" prefWidth="209.0" style="-fx-text-fill: white;" text="Titulo da Tarefa:" AnchorPane.bottomAnchor="293.0" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="162.0">
          <font>
             <Font size="18.0" />
          </font>
@@ -41,7 +41,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="inptStatus" disable="true" layoutX="165.0" layoutY="374.0" prefHeight="30.0" prefWidth="224.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="374.0">
+      <TextField fx:id="inptStatus" editable="false" layoutX="165.0" layoutY="374.0" prefHeight="30.0" prefWidth="224.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="374.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -117,5 +117,15 @@
           <TableColumn fx:id="tcTarefa" prefWidth="123.0" text="Tarefa" />
         </columns>
       </TableView>
+      <TextField fx:id="inpCodigo" editable="false" layoutX="104.0" layoutY="73.0" prefHeight="30.0" prefWidth="63.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label id="rotulo" layoutX="28.0" layoutY="68.0" prefHeight="39.0" prefWidth="74.0" style="-fx-text-fill: white;" text="Código:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

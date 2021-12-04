@@ -58,3 +58,11 @@
 .btnRubber:pressed{
 	-fx-background-color: #C2EDF2;
 }
+
+.table-row-cell:selected{
+	-fx-background-color: black !important;
+}
+
+.table-row-cell:selected.text{
+	-fx-fill: blue;
+}

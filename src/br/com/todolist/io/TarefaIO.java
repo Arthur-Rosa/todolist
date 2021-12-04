@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -98,10 +99,29 @@ public class TarefaIO {
 			tarefas.add(t);
 		}
 		buff.close();
-
-		System.out.println(tarefas.size());
+		Collections.sort(tarefas);
 
 		return tarefas;
 	}
 
+	public static void saveTarefas(List<Tarefa> tarefas) throws IOException {
+		File arqTarefas = new File(FILE_TAREFA);
+		FileWriter writer = new FileWriter(arqTarefas);
+
+		for (Tarefa t : tarefas) {
+			writer.write(t.formatToSave());
+		}
+		writer.close();
+	}
+	
+	public static long leId() throws FileNotFoundException  {
+		File arqId = new File(FILE_ID);
+		Scanner sc = new Scanner(arqId);
+		
+		Long contId = sc.nextLong();
+		
+		sc.close();
+		
+		return contId;
+	}
 }

@@ -3,7 +3,7 @@ package br.com.todolist.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Tarefa {
+public class Tarefa implements Comparable<Tarefa> {
 	private long id;
 
 	private LocalDate dataCriacao;
@@ -71,7 +71,6 @@ public class Tarefa {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 	
@@ -92,5 +91,16 @@ public class Tarefa {
 		builder.append(this.getStatus().ordinal()+"\n");
 		
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Tarefa o) {
+		if(this.getDataLimite().isBefore(o.getDataLimite())) {
+			return -1;
+		} else if (this.getDataLimite().isAfter(o.getDataLimite())) {
+			return 1;
+		} else {
+			return this.getDescricao().compareTo(o.getDescricao());
+		}
 	}
 }

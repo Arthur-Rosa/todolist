@@ -1,5 +1,6 @@
 package br.com.todolist.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -20,8 +21,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -51,7 +54,6 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 	private Button btnDelete;
 
 	@FXML
-
 	private Button btnSave;
 
 	@FXML
@@ -66,29 +68,88 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 	@FXML
 	private TableView<Tarefa> tvTarefa;
 
+	@FXML
+	private Label lbConcluida;
+
+	@FXML
+	private TextField inpCodigo;
+
 	private List<Tarefa> tarefas;
 
-	@SuppressWarnings("unused")
 	private Tarefa tarefa;
 
 	@FXML
 	void clickCalendar(ActionEvent event) {
-		JOptionPane.showMessageDialog(null, "Ainda não funciona :(", "Alerta", JOptionPane.ERROR_MESSAGE);
+		if (tarefa != null) {
+			int dias = Integer.parseInt(JOptionPane.showInputDialog(null, "Quantos dias você deseja adiar?",
+					"Informe quantos dias", JOptionPane.QUESTION_MESSAGE));
+
+			DateTimeFormatter padraoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			LocalDate novaData = tarefa.getDataLimite().plusDays(dias);
+			tarefa.setDataLimite(novaData);
+			tarefa.setStatus(StatusTarefa.ADIADA);
+
+			try {
+				TarefaIO.saveTarefas(tarefas);
+				JOptionPane.showMessageDialog(null, "A Nova data é " + novaData.format(padraoData), "Adiado",
+						JOptionPane.INFORMATION_MESSAGE);
+
+				carregarTarefas();
+				limpar();
+			} catch (IOException e) {
+				JOptionPane.showConfirmDialog(null, "Erro ao Salvar Tarefa", "ERROR", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
 	void clickConc(ActionEvent event) {
-		JOptionPane.showMessageDialog(null, "Ainda não funciona :(", "Alerta", JOptionPane.ERROR_MESSAGE);
+		if (tarefa != null) {
+			tarefa.setStatus(StatusTarefa.CONCLUIDA);
+			tarefa.setDataConcluida(LocalDate.now());
+			try {
+				JOptionPane.showMessageDialog(null, "Parabéns, Tarefa Concluida!!!", "Joia",
+						JOptionPane.INFORMATION_MESSAGE);
+
+				TarefaIO.saveTarefas(tarefas);
+				carregarTarefas();
+				limpar();
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Erro ao Concluir Tarefa", "ERROR", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
 	void clickDelete(ActionEvent event) {
-		JOptionPane.showMessageDialog(null, "Ainda não funciona :(", "Alerta", JOptionPane.ERROR_MESSAGE);
+		if (tarefa != null) {
+			int opt = JOptionPane.showConfirmDialog(null, "Você deseja excluir a Tarefa " + tarefa.getId() + " ?",
+					"Excluir", JOptionPane.YES_NO_OPTION);
+			if (opt == 0) {
+				tarefas.remove(tarefa);
+
+				try {
+					TarefaIO.saveTarefas(tarefas);
+					carregarTarefas();
+					limpar();
+				} catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Ocorreu um erro ao Excluir", "Excluir",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			} else {
+				return;
+			}
+		}
 	}
 
 	@FXML
 	void clickRubber(ActionEvent event) {
 		limpar();
+
 	}
 
 	@FXML
@@ -128,26 +189,31 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 			JOptionPane.showMessageDialog(null, "Informe a Descrição", "Alerta", JOptionPane.ERROR_MESSAGE);
 			inpComent.requestFocus();
 		} else {
-			Tarefa tarefa = new Tarefa();
+			// verifica se a tarefa e nula
+			if (tarefa == null) {
+				// instanciando tarefa
+				tarefa = new Tarefa();
+				tarefa.setDataCriacao(LocalDate.now());
+				tarefa.setStatus(StatusTarefa.ABERTA);
+			}
 
-			tarefa.setDataCriacao(LocalDate.now());
-			tarefa.setStatus(StatusTarefa.ABERTA);
 			tarefa.setDataLimite(inpData.getValue());
-			tarefa.setDescricao(inpDescricao.getText());
-			tarefa.setComentarios(inpComent.getText());
+			tarefa.setDescricao(inpComent.getText());
+			tarefa.setComentarios(inpDescricao.getText());
 
 			try {
-				TarefaIO.insert(tarefa);
-				carregarTarefas();
-				limpar();
+				if (tarefa.getId() == 0) {
+					TarefaIO.insert(tarefa);
+				} else {
+					TarefaIO.saveTarefas(tarefas);
+				}
 
+				limpar();
+				carregarTarefas();
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Erro ao gravar: " + e.getMessage(), "Erro",
 						JOptionPane.ERROR_MESSAGE);
 			}
-
-			// Salva
-			System.out.println(tarefa.formatToSave());
 		}
 	}
 
@@ -157,13 +223,22 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 		inpData.setValue(null);
 		inpComent.setText(null);
 		inpDescricao.setText(null);
+		inptStatus.setText(null);
 		inpData.requestFocus();
 
 		btnCalendar.setDisable(true);
 		btnConc.setDisable(true);
 		btnDelete.setDisable(true);
 		inpData.setDisable(false);
+		inpCodigo.setText(null);
+		btnSave.setDisable(false);
 		tvTarefa.getSelectionModel().clearSelection();
+
+		inpData.setEditable(true);
+		inpDescricao.setEditable(true);
+		inpComent.setEditable(true);
+
+		leitorID();
 	}
 
 	@Override
@@ -190,9 +265,29 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 
 		});
 
+		tvTarefa.setRowFactory(call -> new TableRow<Tarefa>() {
+			protected void updateItem(Tarefa item, boolean empty) {
+				super.updateItem(item, empty);
+
+				if (item == null) {
+					setStyle("");
+				} else if (item.getStatus() == StatusTarefa.CONCLUIDA) {
+					setStyle("-fx-background-color: MediumSeaGreen");
+				} else if (item.getDataLimite().isBefore(LocalDate.now())) {
+					setStyle("-fx-background-color: Maroon");
+				} else if (item.getStatus() == StatusTarefa.ADIADA) {
+					setStyle("-fx-background-color: Gold");
+				} else {
+					setStyle("-fx-background-color: CornflowerBlue");
+				}
+			};
+		});
+
 		tvTarefa.getSelectionModel().selectedItemProperty().addListener(this);
 
 		carregarTarefas();
+
+		leitorID();
 	}
 
 	public void carregarTarefas() {
@@ -214,16 +309,50 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 		tarefa = newValue;
 
 		if (tarefa != null) {
+			inpCodigo.setText(tarefa.getId() + "");
 			inpData.setValue(tarefa.getDataLimite());
 			inpDescricao.setText(tarefa.getDescricao());
 			inpComent.setText(tarefa.getComentarios());
 			inptStatus.setText(tarefa.getStatus() + "");
 
-			btnCalendar.setDisable(false);
-			btnConc.setDisable(false);
 			btnDelete.setDisable(false);
+			btnConc.setDisable(false);
 
-			inpData.setDisable(true);
+			switch (tarefa.getStatus()) {
+			case ADIADA:
+				lbConcluida.setText("Data para realização:");
+				btnCalendar.setDisable(true);
+				btnSave.setDisable(false);
+				break;
+			case CONCLUIDA:
+				lbConcluida.setText("Data de Conclusão:");
+				inpData.setValue(tarefa.getDataConcluida());
+
+				btnCalendar.setDisable(true);
+				btnConc.setDisable(true);
+				btnSave.setDisable(true);
+
+				inpData.setEditable(false);
+				inpDescricao.setEditable(false);
+				inpComent.setEditable(false);
+				break;
+			default:
+				lbConcluida.setText("Data para realização:");
+				btnSave.setDisable(false);
+				btnCalendar.setDisable(false);
+				inpData.setDisable(true);
+				break;
+			}
+
+		}
+	}
+
+	public void leitorID() {
+		try {
+			inpCodigo.setText(TarefaIO.leId() + "");
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Erro não foi possivel ler o ID", "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 }
