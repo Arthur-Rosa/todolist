@@ -113,15 +113,32 @@ public class TarefaIO {
 		}
 		writer.close();
 	}
-	
-	public static long leId() throws FileNotFoundException  {
+
+	public static long leId() throws FileNotFoundException {
 		File arqId = new File(FILE_ID);
 		Scanner sc = new Scanner(arqId);
-		
+
 		Long contId = sc.nextLong();
-		
+
 		sc.close();
-		
+
 		return contId;
+	}
+
+	public static void exportHtml(List<Tarefa> tarefas, File arquivo) throws IOException {
+		FileWriter writer = new FileWriter(arquivo);
+		writer.write("<html>\n");
+		writer.write("<body>\n");
+		writer.write("<h1>Lista de Tarefas</h1>\n");
+		writer.write("<ul>\n");
+		
+		for (Tarefa tarefa : tarefas) {
+			writer.write("<li>"+tarefa.getDataLimite()+" - "+tarefa.getDescricao()+"</li>\n    ");
+		}
+		
+		writer.write("</ul>");
+		writer.write("</body");
+		writer.write("</html>");
+		writer.close();
 	}
 }

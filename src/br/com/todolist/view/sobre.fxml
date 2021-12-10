@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="br.com.todolist.controller.SobreController">
+   <children>
+      <AnchorPane prefHeight="272.0" prefWidth="244.0">
+         <children>
+            <Label layoutX="20.0" layoutY="164.0" prefHeight="17.0" prefWidth="205.0" text="Todolist - Escola Senai Ricardo Lerner" />
+            <Label layoutX="11.0" layoutY="199.0" text="Desenvolvimento de Sistemas 09/12/2021" />
+            <Label layoutX="91.0" layoutY="216.0" text="Arthur Rosa" />
+            <ImageView fitHeight="136.0" fitWidth="200.0" layoutX="55.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/image_concluir.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="btOk" layoutX="96.0" layoutY="238.0" mnemonicParsing="false" onAction="#btOkClick" text="OK" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

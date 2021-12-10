@@ -3,6 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -20,7 +23,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="189.0" layoutY="14.0" prefHeight="39.0" prefWidth="259.0" style="-fx-text-fill: white; -fx-font-style: italic; -fx-font-weight: bold; -fx-font-family: cursive;" text="Todolist" textAlignment="CENTER" AnchorPane.bottomAnchor="441.0" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="14.0">
+      <Label layoutX="195.0" layoutY="27.0" prefHeight="39.0" prefWidth="259.0" style="-fx-text-fill: white; -fx-font-style: italic; -fx-font-weight: bold; -fx-font-family: cursive;" text="Todolist" textAlignment="CENTER" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="195.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="27.0">
          <font>
             <Font size="24.0" />
          </font>
@@ -127,5 +130,20 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <MenuBar layoutY="-3.0" prefHeight="30.0" prefWidth="139.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Arquivo">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#acExport" text="Exportar para Html" />
+                  <MenuItem mnemonicParsing="false" onAction="#acSair" text="Sair" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Ajuda">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#acSobre" text="Sobre" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package br.com.todolist.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -8,7 +9,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import br.com.todolist.io.TarefaIO;
 import br.com.todolist.model.StatusTarefa;
@@ -18,7 +21,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -29,6 +34,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class IndexController implements Initializable, ChangeListener<Tarefa> {
 
@@ -354,5 +363,61 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 			JOptionPane.showMessageDialog(null, "Erro não foi possivel ler o ID", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+
+	@FXML
+	public void acExport() {
+		javax.swing.filechooser.FileFilter filter = new FileNameExtensionFilter("Arquivos HTML", "html", "htm");
+		JFileChooser chooser = new JFileChooser();
+
+		chooser.setFileFilter(filter);
+		if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File arqSelecionado = chooser.getSelectedFile();
+
+			if (!arqSelecionado.getAbsolutePath().endsWith(".html")) {
+				arqSelecionado = new File(arqSelecionado + ".html");
+			}
+
+			try {
+				TarefaIO.exportHtml(tarefas, arqSelecionado);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Erro ao exportar tarefas:" + e.getMessage(), "Erro",
+						JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@FXML
+	public void acSobre() {
+		Stage primaryStage = new Stage();
+		
+		try {
+			TarefaIO.createFiles();
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/br/com/todolist/view/sobre.fxml"));
+			Scene scene = new Scene(root, 250, 275);
+			scene.getStylesheets()
+					.add(getClass().getResource("/br/com/todolist/view/application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Sobre");
+			primaryStage.getIcons()
+					.add(new Image(getClass().getResourceAsStream("/br/com/todolist/images/image_disquete.png")));
+			primaryStage.initModality(Modality.APPLICATION_MODAL);
+			primaryStage.showAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void acSair() {
+		int opt = JOptionPane.showConfirmDialog(null, "Não se vá, Deseja Sair ?", "Sair", JOptionPane.YES_NO_OPTION);
+		if (opt == 0) {
+			System.exit(0);
+		} else {
+			JOptionPane.showMessageDialog(null, "Obrigado, <3", "<3", JOptionPane.INFORMATION_MESSAGE);
+
+		}
+
 	}
 }
