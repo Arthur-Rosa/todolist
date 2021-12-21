@@ -1,5 +1,6 @@
 package br.com.todolist.io;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -131,14 +132,20 @@ public class TarefaIO {
 		writer.write("<body>\n");
 		writer.write("<h1>Lista de Tarefas</h1>\n");
 		writer.write("<ul>\n");
-		
+
 		for (Tarefa tarefa : tarefas) {
-			writer.write("<li>"+tarefa.getDataLimite()+" - "+tarefa.getDescricao()+"</li>\n    ");
+			writer.write("<li>" + tarefa.getDataLimite() + " - " + tarefa.getDescricao() + " - Status "
+					+ tarefa.getStatus() + "</li>\n    ");
 		}
-		
+
 		writer.write("</ul>");
 		writer.write("</body");
 		writer.write("</html>");
 		writer.close();
+
+		Desktop desktop = Desktop.getDesktop();
+		if (arquivo.exists()) {
+			desktop.open(arquivo);
+		}
 	}
 }

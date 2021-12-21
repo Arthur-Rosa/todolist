@@ -274,6 +274,11 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 
 		});
 
+		/*
+		 * if(tarefa.getDataLimite().isBefore(tarefa.getDataLimite())) {
+		 * tarefa.setStatus(StatusTarefa.ATRASADA); }
+		 */
+
 		tvTarefa.setRowFactory(call -> new TableRow<Tarefa>() {
 			protected void updateItem(Tarefa item, boolean empty) {
 				super.updateItem(item, empty);
@@ -297,11 +302,14 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 		carregarTarefas();
 
 		leitorID();
+
+		veAtraso(tarefas);
 	}
 
 	public void carregarTarefas() {
 		try {
 			tarefas = TarefaIO.read();
+
 			tvTarefa.setItems(FXCollections.observableArrayList(tarefas));
 			tvTarefa.refresh();
 
@@ -365,6 +373,14 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 		}
 	}
 
+	public void veAtraso() {
+		if (tarefa.getDataLimite().isBefore(tarefa.getDataLimite())) {
+			tarefa.setStatus(StatusTarefa.ATRASADA);
+
+			JOptionPane.showMessageDialog(null, "Você tem tarefas ATRASADAS", "AVISO", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 	@FXML
 	public void acExport() {
 		javax.swing.filechooser.FileFilter filter = new FileNameExtensionFilter("Arquivos HTML", "html", "htm");
@@ -380,6 +396,7 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 
 			try {
 				TarefaIO.exportHtml(tarefas, arqSelecionado);
+
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Erro ao exportar tarefas:" + e.getMessage(), "Erro",
 						JOptionPane.ERROR_MESSAGE);
@@ -391,8 +408,9 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 	@FXML
 	public void acSobre() {
 		Stage primaryStage = new Stage();
-		
+
 		try {
+
 			TarefaIO.createFiles();
 			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/br/com/todolist/view/sobre.fxml"));
 			Scene scene = new Scene(root, 250, 275);
@@ -419,5 +437,14 @@ public class IndexController implements Initializable, ChangeListener<Tarefa> {
 
 		}
 
+	}
+
+	public void veAtraso(List<Tarefa> tarefas) {
+		for (Tarefa t : tarefas) {
+			if (t.getDataCriacao().isAfter(t.getDataLimite())) {
+				JOptionPane.showMessageDialog(null, "Você possuí tarefas atrasadas", "Alerta",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }
